@@ -78,11 +78,17 @@ task main()
 		initJoysticks(js);
 		struct MotorValues motors;
 
-		moveLeftRight(js, motors);
-
-		moveUpDown(js, motors);
-
-		spin(js, motors);
+		if (vexRT[Btn6U] == 1) {
+			moveLeftRight(js, motors);
+		}
+		else if (vexRT[Btn6D] == 1) {
+			moveUpDown(js, motors);
+		}
+		else {
+			moveLeftRight(js, motors);
+			moveUpDown(js, motors);
+			spin(js, motors);
+		}
 
 		setMotorPower(motors);
 	}
