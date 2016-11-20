@@ -12,6 +12,14 @@ struct MotorValues {
 	int left;
 	int right;
 };
+
+void setMotorPower(struct MotorValues &motors) {
+		motor[back] = motors.back;
+		motor[front] = motors.front;
+		motor[left] = motors.left;
+		motor[right] = motors.right;
+}
+
 task main()
 {
 	//motor to access motor powers
@@ -47,9 +55,6 @@ task main()
 			motors.right = leftRightRightJoystick;
 		}
 
-		motor[back] = motors.back;
-		motor[front] = motors.front;
-		motor[left] = motors.left;
-		motor[right] = motors.right;
+		setMotorPower(motors);
 	}
 }
