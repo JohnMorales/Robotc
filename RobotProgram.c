@@ -47,9 +47,9 @@ task main()
 			motors.right = leftRightRightJoystick;
 		}
 
-		motor[back] = backMotorPower;
-		motor[front] = frontMotorPower;
-		motor[left] = leftMotorPower;
-		motor[right] = rightMotorPower;
+		motor[back] = motors.back;
+		motor[front] = motors.front;
+		motor[left] = motors.left;
+		motor[right] = motors.right;
 	}
 }
