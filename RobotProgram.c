@@ -6,6 +6,12 @@
 
 #define DEADBAND 10
 
+struct MotorValues {
+	int front;
+	int back;
+	int left;
+	int right;
+};
 task main()
 {
 	//motor to access motor powers
@@ -21,24 +27,24 @@ task main()
 		int leftRightLeftJoystick = vexRT[Ch4];
 		int upDownRightJoystick = vexRT[Ch2];
 		int leftRightRightJoystick = vexRT[Ch1];
-		int frontMotorPower = 0, backMotorPower = 0, leftMotorPower = 0, rightMotorPower = 0;
+		struct MotorValues motors;
 
 		if (abs(upDownLeftJoystick) > DEADBAND) // If the left joystick is greater than or less than the threshold, go that direction. (right motor is reversed)
 		{
-			leftMotorPower = upDownLeftJoystick;
-			rightMotorPower = -upDownLeftJoystick;
+			motors.left = upDownLeftJoystick;
+			motors.right = -upDownLeftJoystick;
 		}
 		if (abs(leftRightLeftJoystick) > DEADBAND) // If the left joystick is greater than or less than the threshold, go that direction. (back motor is reversed)
 		{
-			frontMotorPower = leftRightLeftJoystick;
-			backMotorPower = -leftRightLeftJoystick;
+			motors.front = leftRightLeftJoystick;
+			motors.back = -leftRightLeftJoystick;
 		}
 		if (abs(leftRightRightJoystick) > DEADBAND) // If the right joystick is greater than or less than the threshold then spin in that direction.
 		{
-			frontMotorPower = leftRightRightJoystick;
-			leftMotorPower = leftRightRightJoystick;
-			backMotorPower = leftRightRightJoystick;
-			rightMotorPower = leftRightRightJoystick;
+			motors.front = leftRightRightJoystick;
+			motors.left = leftRightRightJoystick;
+			motors.back = leftRightRightJoystick;
+			motors.right = leftRightRightJoystick;
 		}
 
 		motor[back] = backMotorPower;
