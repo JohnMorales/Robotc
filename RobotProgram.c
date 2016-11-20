@@ -37,6 +37,12 @@ void initJoysticks(struct Joysticks &js) {
 	js.right.leftRight = vexRT[Ch1];
 }
 
+void moveLeftRight(struct Joysticks &js, struct MotorValues &motors) {
+	if (abs(js.left.upDown) > DEADBAND) // If the left joystick is greater than or less than the threshold, go that direction. (right motor is reversed)
+	{
+		motors.left = js.left.upDown;
+		motors.right = -js.left.upDown;
+	}
 }
 
 task main()
@@ -54,11 +60,7 @@ task main()
 		initJoysticks(js);
 		struct MotorValues motors;
 
-		if (abs(js.left.upDown) > DEADBAND) // If the left joystick is greater than or less than the threshold, go that direction. (right motor is reversed)
-		{
-			motors.left = js.left.upDown;
-			motors.right = -js.left.upDown;
-		}
+		moveLeftRight(js, motors);
 		if (abs(js.left.leftRight) > DEADBAND) // If the left joystick is greater than or less than the threshold, go that direction. (back motor is reversed)
 		{
 			motors.front = js.left.leftRight;
