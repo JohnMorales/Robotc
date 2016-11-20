@@ -8,6 +8,13 @@
 
 task main()
 {
+	//motor to access motor powers
+	//vexRT to access remote values
+	//SensorValue to access sensors
+	//Ch1 left-right on the right joystick
+	//Ch2 up-down on the right joystick
+	//Ch3 up-down on the left joystick
+	//Ch4 left-right on the left joystick
 	while (true)
 	{
 		int upDownLeftJoystick = vexRT[Ch3];
@@ -16,15 +23,23 @@ task main()
 		int leftRightRightJoystick = vexRT[Ch1];
 		int frontMotorPower = 0, backMotorPower = 0, leftMotorPower = 0, rightMotorPower = 0;
 
+		if (abs(upDownLeftJoystick) > DEADBAND) // If the left joystick is greater than or less than the threshold, go that direction. (right motor is reversed)
 		{
 			leftMotorPower = upDownLeftJoystick;
 			rightMotorPower = -upDownLeftJoystick;
 		}
+		if (abs(leftRightLeftJoystick) > DEADBAND) // If the left joystick is greater than or less than the threshold, go that direction. (back motor is reversed)
 		{
 			frontMotorPower = leftRightLeftJoystick;
 			backMotorPower = -leftRightLeftJoystick;
 		}
-
+		if (abs(leftRightRightJoystick) > DEADBAND) // If the right joystick is greater than or less than the threshold then spin in that direction.
+		{
+			frontMotorPower = leftRightRightJoystick;
+			leftMotorPower = leftRightRightJoystick;
+			backMotorPower = leftRightRightJoystick;
+			rightMotorPower = leftRightRightJoystick;
+		}
 
 		motor[back] = backMotorPower;
 		motor[front] = frontMotorPower;
