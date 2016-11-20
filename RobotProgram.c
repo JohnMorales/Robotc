@@ -24,10 +24,19 @@ struct Joysticks {
 };
 
 void setMotorPower(struct MotorValues &motors) {
-		motor[back] = motors.back;
-		motor[front] = motors.front;
-		motor[left] = motors.left;
-		motor[right] = motors.right;
+	motor[back] = motors.back;
+	motor[front] = motors.front;
+	motor[left] = motors.left;
+	motor[right] = motors.right;
+}
+
+void initJoysticks(struct Joysticks &js) {
+	js.left.upDown = vexRT[Ch3];
+	js.left.leftRight = vexRT[Ch4];
+	js.right.upDown = vexRT[Ch2];
+	js.right.leftRight = vexRT[Ch1];
+}
+
 }
 
 task main()
@@ -42,10 +51,7 @@ task main()
 	while (true)
 	{
 		struct Joysticks js;
-		js.left.upDown = vexRT[Ch3];
-		js.left.leftRight = vexRT[Ch4];
-		js.right.upDown = vexRT[Ch2];
-		js.right.leftRight = vexRT[Ch1];
+		initJoysticks(js);
 		struct MotorValues motors;
 
 		if (abs(js.left.upDown) > DEADBAND) // If the left joystick is greater than or less than the threshold, go that direction. (right motor is reversed)
