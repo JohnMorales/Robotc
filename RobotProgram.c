@@ -13,6 +13,16 @@ struct MotorValues {
 	int right;
 };
 
+struct JoystickValues {
+	int upDown;
+	int leftRight;
+};
+
+struct Joysticks {
+	struct JoystickValues left;
+	struct JoystickValues right;
+};
+
 void setMotorPower(struct MotorValues &motors) {
 		motor[back] = motors.back;
 		motor[front] = motors.front;
@@ -31,28 +41,29 @@ task main()
 	//Ch4 left-right on the left joystick
 	while (true)
 	{
-		int upDownLeftJoystick = vexRT[Ch3];
-		int leftRightLeftJoystick = vexRT[Ch4];
-		int upDownRightJoystick = vexRT[Ch2];
-		int leftRightRightJoystick = vexRT[Ch1];
+		struct Joysticks js;
+		js.left.upDown = vexRT[Ch3];
+		js.left.leftRight = vexRT[Ch4];
+		js.right.upDown = vexRT[Ch2];
+		js.right.leftRight = vexRT[Ch1];
 		struct MotorValues motors;
 
-		if (abs(upDownLeftJoystick) > DEADBAND) // If the left joystick is greater than or less than the threshold, go that direction. (right motor is reversed)
+		if (abs(js.left.upDown) > DEADBAND) // If the left joystick is greater than or less than the threshold, go that direction. (right motor is reversed)
 		{
-			motors.left = upDownLeftJoystick;
-			motors.right = -upDownLeftJoystick;
+			motors.left = js.left.upDown;
+			motors.right = -js.left.upDown;
 		}
-		if (abs(leftRightLeftJoystick) > DEADBAND) // If the left joystick is greater than or less than the threshold, go that direction. (back motor is reversed)
+		if (abs(js.left.leftRight) > DEADBAND) // If the left joystick is greater than or less than the threshold, go that direction. (back motor is reversed)
 		{
-			motors.front = leftRightLeftJoystick;
-			motors.back = -leftRightLeftJoystick;
+			motors.front = js.left.leftRight;
+			motors.back = -js.left.leftRight;
 		}
-		if (abs(leftRightRightJoystick) > DEADBAND) // If the right joystick is greater than or less than the threshold then spin in that direction.
+		if (abs(js.right.leftRight) > DEADBAND) // If the right joystick is greater than or less than the threshold then spin in that direction.
 		{
-			motors.front = leftRightRightJoystick;
-			motors.left = leftRightRightJoystick;
-			motors.back = leftRightRightJoystick;
-			motors.right = leftRightRightJoystick;
+			motors.front = js.right.leftRight;
+			motors.left = js.right.leftRight;
+			motors.back = js.right.leftRight;
+			motors.right = js.right.leftRight;
 		}
 
 		setMotorPower(motors);
