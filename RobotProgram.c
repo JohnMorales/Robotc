@@ -77,6 +77,7 @@ task main()
 		struct Joysticks js;
 		initJoysticks(js);
 		struct MotorValues motors;
+		memset(motors, 0, sizeof(int)*4);
 
 		if (vexRT[Btn6U] == 1) {
 			moveLeftRight(js, motors);
