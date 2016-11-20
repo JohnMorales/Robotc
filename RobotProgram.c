@@ -45,6 +45,24 @@ void moveLeftRight(struct Joysticks &js, struct MotorValues &motors) {
 	}
 }
 
+void moveUpDown(struct Joysticks &js, struct MotorValues &motors) {
+	if (abs(js.left.leftRight) > DEADBAND) // If the left joystick is greater than or less than the threshold, go that direction. (back motor is reversed)
+	{
+		motors.front = js.left.leftRight;
+		motors.back = -js.left.leftRight;
+	}
+}
+
+void spin(struct Joysticks &js, struct MotorValues &motors) {
+	if (abs(js.right.leftRight) > DEADBAND) // If the right joystick is greater than or less than the threshold then spin in that direction.
+	{
+		motors.front = js.right.leftRight;
+		motors.left = js.right.leftRight;
+		motors.back = js.right.leftRight;
+		motors.right = js.right.leftRight;
+	}
+}
+
 task main()
 {
 	//motor to access motor powers
@@ -61,18 +79,10 @@ task main()
 		struct MotorValues motors;
 
 		moveLeftRight(js, motors);
-		if (abs(js.left.leftRight) > DEADBAND) // If the left joystick is greater than or less than the threshold, go that direction. (back motor is reversed)
-		{
-			motors.front = js.left.leftRight;
-			motors.back = -js.left.leftRight;
-		}
-		if (abs(js.right.leftRight) > DEADBAND) // If the right joystick is greater than or less than the threshold then spin in that direction.
-		{
-			motors.front = js.right.leftRight;
-			motors.left = js.right.leftRight;
-			motors.back = js.right.leftRight;
-			motors.right = js.right.leftRight;
-		}
+
+		moveUpDown(js, motors);
+
+		spin(js, motors);
 
 		setMotorPower(motors);
 	}
