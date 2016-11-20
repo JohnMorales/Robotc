@@ -65,13 +65,6 @@ void spin(struct Joysticks &js, struct MotorValues &motors) {
 
 task main()
 {
-	//motor to access motor powers
-	//vexRT to access remote values
-	//SensorValue to access sensors
-	//Ch1 left-right on the right joystick
-	//Ch2 up-down on the right joystick
-	//Ch3 up-down on the left joystick
-	//Ch4 left-right on the left joystick
 	while (true)
 	{
 		struct Joysticks js;
